@@ -1,0 +1,239 @@
+:root {
+  --primary: #6677d5;
+  --secondary: #363636;
+  --secondary-transparent: #30303067;
+  --white: #f6f6f6;
+  --gray: #c4c3c3;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+.video-effects[data-effect=play], .video-effects[data-effect=pause], .video-effects[data-effect=avance], .video-effects[data-effect=back] {
+  position: absolute;
+  content: "";
+  color: #fff;
+  top: 0px;
+  left: 0%;
+  background-color: var(--secondary-transparent);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  -webkit-animation: exit-video-effects 0.3s forwards;
+          animation: exit-video-effects 0.3s forwards;
+}
+
+.container {
+  width: 800px;
+}
+
+.video {
+  position: relative;
+  color: var(--white);
+  overflow: hidden;
+  width: 100%;
+}
+.video.show-controls .video-float {
+  opacity: 1;
+}
+.video-float {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 3px;
+  left: 0;
+  right: 0;
+  background-color: var(--secondary-transparent);
+  z-index: 1;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.video-progress {
+  height: 3px;
+  background-color: var(--secondary);
+  position: relative;
+  transition: all 0.1s ease;
+  cursor: pointer;
+}
+.video-progress-label {
+  position: absolute;
+  top: -50px;
+  left: 0%;
+  transform: translateX(-50%);
+  content: "";
+  font-size: 12px;
+  background-color: var(--secondary-transparent);
+  padding: 5px;
+  border-radius: 3px;
+  color: var(--white);
+  display: none;
+}
+.video-progress-bar {
+  height: 100%;
+  width: 0%;
+  background-color: var(--primary);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  position: relative;
+}
+.video-progress:hover .video-progress-bar::before {
+  content: "";
+  right: 0;
+  height: 13px;
+  width: 13px;
+  background-color: inherit;
+  position: absolute;
+  top: 50%;
+  transition: all 0.3s;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+.video-progress:hover {
+  height: 5px;
+}
+.video-progress:hover .video-progress-label {
+  display: block;
+}
+.video-controller {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+  padding: 0px 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.video-playback-controller {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 20%;
+  gap: 10px;
+}
+.video-volume {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+.video-volume:hover input {
+  display: block;
+}
+.video-volume input {
+  display: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  height: 3px;
+  background-color: var(--secondary);
+  border-radius: 5px;
+  cursor: pointer;
+}
+.video-volume input::-webkit-slider-thumb {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  -webkit-appearance: none;
+          appearance: none;
+  background-color: var(--primary);
+  width: 10px;
+  border-radius: 50%;
+  height: 10px;
+  cursor: -webkit-grab;
+  cursor: grab;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+.video-volume input::-webkit-slider-thumb:hover {
+  width: 13px;
+  height: 13px;
+}
+.video-timers {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 12px;
+  color: var(--white);
+}
+.video-more {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 15px;
+  width: 20%;
+}
+.video-file {
+  width: 100%;
+}
+.video-effects {
+  display: none;
+  -webkit-animation: entrance-video-effects 0.3s forwards;
+          animation: entrance-video-effects 0.3s forwards;
+}
+.video-effects i {
+  font-size: 50px;
+}
+@-webkit-keyframes entrance-video-effects {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+@keyframes entrance-video-effects {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  100% {
+    display: flex;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes exit-video-effects {
+  0% {
+    display: flex;
+    opacity: 1;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+@keyframes exit-video-effects {
+  0% {
+    display: flex;
+    opacity: 1;
+  }
+  100% {
+    display: none;
+    opacity: 0;
+  }
+}
+i {
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+i:hover {
+  color: var(--gray);
+}/*# sourceMappingURL=index.css.map */
