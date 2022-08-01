@@ -1,5 +1,5 @@
-const video = document.querySelector('.video-file'); // video tag
-const btnPausePlay = document.querySelector('.video-playback-pause-play i'); // btn play & pause
+const video = document.querySelector('.video-file');
+const btnPausePlay = document.querySelector('.video-playback-pause-play i');
 const progressBar = document.querySelector('.video-progress-bar');
 const videoTimeNow = document.querySelector('.video-time-now');
 const videoTimeTotal = document.querySelector('.video-time-total');
@@ -13,6 +13,9 @@ const containerVideoBar = document.querySelector('.video-progress');
 const videoComponent = document.querySelector('.video');
 const videoEffectIcon = document.querySelector('.video-effects i');
 const videoEffects = document.querySelector('.video-effects');
+const videoBar = document.querySelector('.video-float');
+const btnFullscreen = document.querySelector('.video-fullscreen i');
+const container = document.querySelector('.container');
 
 window.onload = () => video.volume = 0.2;
 
@@ -31,8 +34,6 @@ const formatTime = (time) => {
 }
 
 btnPausePlay.onclick = () => {
-	// video.play();
-	// btnPausePlay.classList.replace('bi-pause', 'bi-play');
 	video.paused ? video.play() : video.pause();
 };
 
@@ -115,28 +116,49 @@ containerVideoBar.onclick = (e) => {
 containerVideoBar.onmousemove = e => {
 	let offsetX = e.offsetX;
 	videoTimeLabel.style.left = `${offsetX}px`;
+	console.log(offsetX);
 	let timelineWidth = containerVideoBar.clientWidth;
 	let percent = (e.offsetX / timelineWidth) * video.duration;
 	videoTimeLabel.innerText = formatTime(percent);
+	if (offsetX < 25) {
+		videoComponent.classList.contains('fullscreen') ? videoTimeLabel.style.left = `2%` : videoTimeLabel.style.left = `20px`;
+		return;
+	} else if (offsetX >= (timelineWidth - 20)) {
+		videoComponent.classList.contains('fullscreen') ? videoTimeLabel.style.left = `98%` : videoTimeLabel.style.left = `97%`;
+		return;
+	}
 };
 
-videoComponent.onmouseover = () => {
-	videoComponent.classList.add('show-controls');
-}
-videoComponent.onmouseleave = () => {
-	videoComponent.classList.remove('show-controls');
-}
-// setTimeout(() => {
-// 	videoComponent.classList.remove('show-controls');
-// }, 2000)
+videoComponent.onmouseover = () => videoComponent.classList.add('show-controls');
+videoComponent.onmouseleave = () => videoComponent.classList.remove('show-controls');
 
-// const insertEffectVideo = (typeEffect) => {
-// 	const icon = document.querySelector('#video-effect-icon');
-// 	if (typeEffect === 'avance') {
-// 		icon.classList.add('bi-skip-forward-fill');
-// 		console.log("alo");
-// 	} else if (typeEffect === 'back') {
-// 		icon.classList.add('bi-skip-backward-fill');
-// 	}
-// };
-// insertEffectVideo('back');
+const draggableProgressBar = e => {
+	let timelineWidth = containerVideoBar.clientWidth;
+	progressBar.style.width = `${e.offsetX}px`;
+	console.log("alo");
+	video.currentTime = (e.offsetX / timelineWidth) * video.duration;
+};
+
+containerVideoBar.onmousedown = () => containerVideoBar.addEventListener('mousemove', draggableProgressBar);
+
+videoBar.onmouseup = () => containerVideoBar.removeEventListener('mousemove', draggableProgressBar);
+video.onmouseup = () => containerVideoBar.removeEventListener('mousemove', draggableProgressBar);
+document.onmouseup = () => containerVideoBar.removeEventListener('mousemove', draggableProgressBar);
+
+containerVideoBar.addEventListener('mousemove', e => {
+	let offsetX = e.offsetX;
+	videoTimeLabel.style.left = `${offsetX}`;
+	let timelineWidth = containerVideoBar.clientWidth;
+	let percent = (e.offsetX / timelineWidth) * video.duration;
+	videoTimeLabel.innerText = formatTime(percent);
+});
+
+btnFullscreen.onclick = () => {
+	videoComponent.classList.toggle('fullscreen');
+	if (document.fullscreenElement) {
+		btnFullscreen.classList.replace("bi-fullscreen-exit", "bi-fullscreen");
+		return document.exitFullscreen();
+	}
+	btnFullscreen.classList.replace("bi-fullscreen", "bi-fullscreen-exit");
+	videoComponent.requestFullscreen();
+};
